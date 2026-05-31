@@ -17,19 +17,30 @@ app.get("/", (req, res) => {
 
 app.post("/chat", async (req, res) => {
   try {
-    const { message } = req.body;
+    const { messages } = req.body;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
-          content: "אתה בוט שירות לקוחות של Green Garden. דבר בעברית קצר, ידידותי ומקצועי."
+          content: `
+אתה בוט שירות לקוחות של Green Garden, עסק לגינון.
+
+המטרה שלך:
+- להבין מה הלקוח צריך
+- לאסוף פרטים חסרים
+- לא לשאול שוב על מידע שכבר נמסר
+- לדבר בעברית קצרה, נעימה ומקצועית
+- לא לתת מחיר סופי
+
+אם הלקוח מבקש דשא סינטטי, אסוף:
+עיר, גודל שטח, האם זו התקנה חדשה או החלפה, שם, טלפון.
+
+שאל בכל פעם שאלה אחת בלבד.
+          `
         },
-        {
-          role: "user",
-          content: message
-        }
+        ...messages
       ]
     });
 
