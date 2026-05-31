@@ -20,12 +20,11 @@ app.post("/chat", async (req, res) => {
     const { message } = req.body;
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4.1-mini",
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
-          content:
-            "אתה בוט שירות לקוחות של Green Garden. דבר בעברית בצורה קצרה, ידידותית ומקצועית."
+          content: "אתה בוט שירות לקוחות של Green Garden. דבר בעברית קצר, ידידותי ומקצועי."
         },
         {
           role: "user",
@@ -39,10 +38,10 @@ app.post("/chat", async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("OPENAI ERROR:", error);
 
     res.status(500).json({
-      error: "שגיאה בשרת"
+      error: error.message || "שגיאה לא ידועה מהשרת"
     });
   }
 });
